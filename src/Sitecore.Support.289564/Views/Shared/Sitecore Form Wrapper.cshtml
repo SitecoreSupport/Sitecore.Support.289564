@@ -13,7 +13,14 @@
 <div @Html.Sxa().Component(Model.Rendering.RenderingCssClass ?? "sitecore-form", Model.Attributes)>
     <div class="component-content">
         @Html.Sitecore().Placeholder(key)
-        <script>
+        @if (Sitecore.Context.PageMode.IsExperienceEditorEditing)
+        {
+            @Html.RenderFormStyles()
+            @Html.RenderFormScripts()
+        }
+        else
+        {
+            <script>
             var decodeHTML = function (html) {
                 var txt = document.createElement('textarea');
                 txt.innerHTML = html;
@@ -23,7 +30,8 @@
                 var resources = '<span id="scFormResources" style="display: none;">@Html.RenderFormStyles().ToString().Replace(System.Environment.NewLine, "") @Html.RenderFormScripts().ToString().Replace(System.Environment.NewLine, "")</span>';
                 document.write(decodeHTML(resources));
             }
-        </script>
+            </script>
+        }
     </div>
 </div>
 
